@@ -18,7 +18,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '22'
-
+          
+      - name: Create .env file
+        run: |
+          echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" >> .env
+          echo "CHAT_ID=${{ secrets.CHAT_ID }}" >> .env
+          echo "URL=${{ secrets.URL }}" >> .env
+          echo "KEYWORD=${{ secrets.KEYWORD }}" >> .env
+          
       - name: Install dependencies
         run: npm install
 
