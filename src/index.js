@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const TelegramBot = require('node-telegram-bot-api');
 
-const scrapeData = require('./scraper');
+const scraper = require('./scraper');
 const telegram = require('./telegram');
 
 const botToken = process.env.BOT_TOKEN;
@@ -18,7 +18,7 @@ const keyword = process.env.KEYWORD;
         return;
     }
     try {
-        const message = await scrapeData({
+        const message = await scraper.scrapeData({
             axios,
             cheerio,
         }, {
