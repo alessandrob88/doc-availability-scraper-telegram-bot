@@ -36,7 +36,7 @@ const parseData = (data) => {
     return {
       'redflag.png': '🟥 Not Available',
       'arancio.png': '🟨 Partially available',
-      'verde.png': '🟩 Available'
+      'greenflag.png': '🟩 Available'
     }[data] || 'UNKNOWN';
 }
 
