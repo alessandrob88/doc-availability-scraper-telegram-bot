@@ -1,6 +1,6 @@
 {
   "name": "gentify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This project simply send a message to a telegram bot to update myself on the availability of a doctor in a website",
   "main": "index.js",
   "scripts": {
