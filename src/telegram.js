@@ -13,9 +13,9 @@
 const sendNotification = async ({ bot }, { chatId, message }) => {
   try {
     await bot.sendMessage(chatId, message);
-    console.log('Messaggio inviato con successo!');
+    console.log('Message successfully sent!');
   } catch (error) {
-    console.error('Errore durante l\'invio del messaggio:', error);
+    console.error('error while sending message:', error);
   }
 }
 
