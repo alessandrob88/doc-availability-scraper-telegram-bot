@@ -6,19 +6,23 @@
  * @param {Object} opts.cheerio - Cheerio instance.
  * @param {Object} params - Object containing required parameters.
  * @param {String} params.url - The URL to scrape.
- * @param {String} params.keyword - The keyword to search.
+ * @param {String[]} params.keyword - The keywords to search.
  *
  * @returns {String} The extracted data.
  */
-const scrapeData = async ({ axios, cheerio }, { url, keyword }) => {
+const scrapeData = async ({ axios, cheerio }, { url, keywords }) => {
   try {
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
-    const extractedData = $('td:contains("'+keyword+'")')
-        .prev('td')
-        .find('img')
-        .attr('src');
-    return parseData(extractedData);
+    const output = [];
+
+    for (const keyword of keywords) {
+      output.push(
+        keyword.slice(0, 3) + ': ' + parseData(searchAvailabilityByKeyword($, keyword))
+      );
+    }
+    
+    return output.join('\n');
   } catch (error) {
     console.error('Errore while scraping:', error);
     return null;
@@ -39,5 +43,7 @@ const parseData = (data) => {
       'greenflag.png': '🟩 Available'
     }[data] || 'UNKNOWN';
 }
+
+const searchAvailabilityByKeyword = (domData, keyword) => domData('td:contains("'+keyword+'")').prev('td').find('img').attr('src')
 
 module.exports = { scrapeData };

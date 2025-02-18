@@ -8,7 +8,7 @@ const telegram = require('./telegram');
 const botToken = process.env.BOT_TOKEN;
 const chatId = process.env.CHAT_ID;
 const url = process.env.URL;
-const keyword = process.env.KEYWORD;
+const keywords = process.env.KEYWORD.split(',');
 
 (async () => {
     const bot = new TelegramBot(botToken, { polling: false });
@@ -23,7 +23,7 @@ const keyword = process.env.KEYWORD;
             cheerio,
         }, {
             url,
-            keyword
+            keywords
         });
 
         await telegram.sendNotification({ bot }, { chatId, message });
