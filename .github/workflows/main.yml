@@ -4,13 +4,31 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: '0 7 * * *' 
+    - cron: '10 5 * * *'
+    - cron: '30 5 * * *'
+    - cron: '10 6 * * *'
+    - cron: '30 6 * * *'
   
 jobs:
   run-script:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check local time in Europe/Rome
+        if: github.event_name == 'schedule'
+        run: |
+          TIME_IN_ROME=$(LC_ALL=C TZ=Europe/Rome date +%H:%M)
+          echo "Current local time in Europe/Rome is $TIME_IN_ROME"
+          if [[ "$TIME_IN_ROME" != "07:10" && "$TIME_IN_ROME" != "07:30" ]]; then
+            echo "Not 07:10 or 07:30 Europe/Rome time — skipping the run."
+            exit 0
+          fi
+      - name: Validate secrets
+        run: |
+          if [ -z "${{ secrets.BOT_TOKEN }}" ] || [ -z "${{ secrets.CHAT_ID }}" ] || [ -z "${{ secrets.URL }}" ] || [ -z "${{ secrets.KEYWORD }}" ]; then
+            echo "One or more required secrets are missing!"
+            exit 1
+          fi
       - name: Checkout code
         uses: actions/checkout@v2
 
